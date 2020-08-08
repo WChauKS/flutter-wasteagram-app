@@ -6,7 +6,7 @@ import 'screens/new_post_screen.dart';
 class App extends StatelessWidget {
 
   static final routes = {
-    ListScreen.routeName: (context) => ListScreen(),
+    PostListScreen.routeName: (context) => PostListScreen(),
     DetailScreen.routeName: (context) => DetailScreen(),
     NewPostScreen.routeName: (context) => NewPostScreen(),
   //   ImgPickerScreen.routeName: (context) => ImgPickerScreen()
