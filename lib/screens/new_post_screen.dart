@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../models/img_arg.dart';
 
 class NewPostScreen extends StatelessWidget {
   static final routeName = 'newPostScreen';
 
   @override
   Widget build(BuildContext context) {
+    final ImgArg arg = ModalRoute.of(context).settings.arguments;
     
     return Scaffold(
       appBar: AppBar(
@@ -15,27 +17,19 @@ class NewPostScreen extends StatelessWidget {
       ),
       body: Form(
         key: null,
-        child: newPostForm(),
+        child: Column(
+          children: [
+            Center(
+              child: SizedBox(
+                height: 375,
+                child: arg.image == null ? Text('No Image Selected.') : Image.file(arg.image)
+              )
+            ),
+            inputWasteField()
+          ]
+        )
       ),
       bottomNavigationBar: uploadButton(context),
-    );
-  }
-
-  Widget newPostForm() {
-    return Column(
-      children: [
-        imageDisplay(),
-        inputWasteField()
-      ],
-    );
-  }
-
-  Widget imageDisplay() {
-    return Center(
-      child: SizedBox(
-        height: 375,
-        child: Text('image goes here')
-      )
     );
   }
 
