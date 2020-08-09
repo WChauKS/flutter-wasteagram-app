@@ -4,6 +4,7 @@ import 'dart:io';
 
 class ImgArg {
   File image;
+  String url;
 
-  ImgArg({this.image});
+  ImgArg({this.image, this.url});
 }

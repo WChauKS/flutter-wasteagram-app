@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../db/post_dto.dart';
@@ -14,10 +15,12 @@ class NewPostScreen extends StatefulWidget {
 class _NewPostScreenState extends State<NewPostScreen> {
   final formKey = GlobalKey<FormState>();
   final postDTO = PostDTO();
+  LocationData locationData;
     
   @override
   Widget build(BuildContext context) {    
     final ImgArg arg = ModalRoute.of(context).settings.arguments;
+    retrieveLocation();
     return Scaffold(
       appBar: AppBar(
         title: Text('New Post'),
@@ -37,7 +40,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           ]
         )
       ),
-      bottomNavigationBar: uploadButton(context, formKey),
+      bottomNavigationBar: uploadButton(context, formKey, arg),
       resizeToAvoidBottomInset: false,
     );
   }
@@ -63,7 +66,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     );
   }
 
-  Widget uploadButton(context, formKey) {
+  Widget uploadButton(context, formKey, arg) {
     return SizedBox(
       height: 80,
       child:RaisedButton(
@@ -71,9 +74,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
           if(formKey.currentState.validate()) {
             formKey.currentState.save();
             postDTO.date = DateTime.now();
-            // postDTO.imageUrl = ?
-            // postDTO.longitude;
-            // postDTO.latitude;
+            retrieveLocation();
+            postDTO.imageUrl = arg.url;
+            postDTO.longitude = locationData.longitude;
+            postDTO.latitude = locationData.latitude;
             // print('upload to firebase');
             Firestore.instance.collection('posts').add(postDTO.toMap());
             Navigator.of(context).pop();
@@ -82,5 +86,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
         child: Icon(Icons.cloud_upload, size: 80,),
       )
     );
+  }
+
+  void retrieveLocation() async {
+    var locationService = Location();
+    locationData = await locationService.getLocation();
   }
 }

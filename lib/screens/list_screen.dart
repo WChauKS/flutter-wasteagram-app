@@ -1,6 +1,8 @@
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
 import '../models/img_arg.dart';
 import '../widgets/list_body.dart';
 
@@ -14,10 +16,15 @@ class PostListScreen extends StatefulWidget {
 
 class _PostListScreenState extends State<PostListScreen> {
   File image;
+  String url;
   final picker = ImagePicker();
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    StorageReference storageReference = FirebaseStorage.instance.ref().child(Path.basename(pickedFile.path) + DateTime.now().toIso8601String());
+    StorageUploadTask uploadTask = storageReference.putFile(File(pickedFile.path));
+    await uploadTask.onComplete;
+    url = await storageReference.getDownloadURL();
     setState(() {
       image = File(pickedFile.path);
     });
@@ -46,7 +53,7 @@ class _PostListScreenState extends State<PostListScreen> {
         Navigator.pushNamed(
           context, 
           'newPostScreen',
-          arguments: ImgArg(image: image)
+          arguments: ImgArg(image: image, url: url)
         );
       },
       child: Icon(Icons.camera_alt),
