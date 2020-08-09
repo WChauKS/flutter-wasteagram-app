@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import '../models/post.dart';
+import '../db/post_dto.dart';
+import '../utility/format_date.dart';
 
 class DetailScreen extends StatelessWidget {
   static final routeName = 'detailScreen';
-  final String date, imageUrl;
-  final int quantity;
-  final double longitude, latitude;
-  DetailScreen({this.date, this.imageUrl, this.quantity, this.longitude, this.latitude});
+  final PostDTO post;
+  DetailScreen({this.post});
   
   @override
   Widget build(BuildContext context) {
@@ -27,15 +26,13 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            detailPadding(date,20.0),
+            detailPadding(formatDate(post.date),20.0),
             SizedBox(
               height: 375,
-              // child: Image.network(imageUrl)
-              child: loadImage(imageUrl)
+              child: loadImage(post.imageUrl)
               ),
-            // Text(imageUrl.toString()),
-            detailPadding(quantity.toString(),20.0),
-            detailPadding('Longitude: ${longitude.toString()} / Latitude: + ${latitude.toString()}', 10.0),
+            detailPadding(post.quantity.toString(),20.0),
+            detailPadding('Longitude: ${post.longitude.toString()} / Latitude: + ${post.latitude.toString()}', 15.0),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 import '../models/img_arg.dart';
 import '../widgets/list_body.dart';
+import '../widgets/app_bar.dart';
 
 class PostListScreen extends StatefulWidget {
 
@@ -32,11 +33,14 @@ class _PostListScreenState extends State<PostListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if null return Center(child: CircularProgressIndicator());
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Wasteagram + NUM'),
-        centerTitle: true,
+      // appBar: AppBar(
+      //   title: Text('Wasteagram + NUM'),
+      //   centerTitle: true,
+      // ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(75),
+        child: WasteagramAppBar(),
       ),
       floatingActionButton: cameraFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -46,7 +50,6 @@ class _PostListScreenState extends State<PostListScreen> {
 
   Widget cameraFab() {
     return FloatingActionButton(
-      // open gallery/take pic
       onPressed: () async {
         image = null;   // set to null in case user hits back after going to newPostScreen, which would mean that the user cancelled their upload
         await getImage();

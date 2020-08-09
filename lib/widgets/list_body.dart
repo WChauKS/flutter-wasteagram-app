@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:wasteagram/screens/detail_screen.dart';
+import '../db/post_dto.dart';
+import '../screens/detail_screen.dart';
+import '../utility/format_date.dart';
 
 class PostListBody extends StatelessWidget {
   @override
@@ -23,32 +24,17 @@ class PostListBody extends StatelessWidget {
       separatorBuilder: (context, index) => Divider(height: 0), 
       itemCount: snapshot.data.documents.length,
       itemBuilder: (context, index) {
-        // buildlistitem(context, snapshot.data.documents[index])
         var post = snapshot.data.documents[index];
-        print(post);
         return ListTile(
           title: Text(formatDate(post['date'])),
-          subtitle: Text(post['quantity'].toString()),
+          trailing: Text(post['quantity'].toString()),
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => 
-                DetailScreen(
-                  date: formatDate(post['date']),
-                  imageUrl: post['imageUrl'],
-                  quantity: post['quantity'],
-                  longitude: post['longitude'],
-                  latitude: post['latitude']
-                )
-              )
-            );// Navigator.pushNamed(context, 'detailScreen');
+              MaterialPageRoute(builder: (_) => DetailScreen(post: PostDTO.firebaseData(post)))
+            );
           }
         );
       }
     );
-  }
-
-  String formatDate(timestamp) {
-    DateTime timeString = DateTime.parse(timestamp.toDate().toString());
-    return DateFormat('MM/dd/yyyy - kk:mm').format(timeString);
   }
 }
