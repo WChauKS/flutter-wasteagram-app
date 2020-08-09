@@ -9,6 +9,7 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Wasteagram'),
+        centerTitle: true,
       ),
       body: detailsView(),
     );

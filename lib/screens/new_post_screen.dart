@@ -1,22 +1,30 @@
-import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../db/post_dto.dart';
 import '../models/img_arg.dart';
 
-class NewPostScreen extends StatelessWidget {
+class NewPostScreen extends StatefulWidget {
   static final routeName = 'newPostScreen';
 
   @override
-  Widget build(BuildContext context) {
-    final ImgArg arg = ModalRoute.of(context).settings.arguments;
+  _NewPostScreenState createState() => _NewPostScreenState();
+}
+
+class _NewPostScreenState extends State<NewPostScreen> {
+  final formKey = GlobalKey<FormState>();
+  final postDTO = PostDTO();
     
+  @override
+  Widget build(BuildContext context) {    
+    final ImgArg arg = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text('New Post'),
         centerTitle: true,
       ),
       body: Form(
-        key: null,
+        key: formKey,
         child: Column(
           children: [
             Center(
@@ -29,7 +37,8 @@ class NewPostScreen extends StatelessWidget {
           ]
         )
       ),
-      bottomNavigationBar: uploadButton(context),
+      bottomNavigationBar: uploadButton(context, formKey),
+      resizeToAvoidBottomInset: false,
     );
   }
 
@@ -40,7 +49,9 @@ class NewPostScreen extends StatelessWidget {
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly],
         decoration: InputDecoration(hintText: 'Enter number of wasted items'),
-        onSaved: (value) { },
+        onSaved: (value) {
+          postDTO.quantity = int.parse(value);
+        },
         validator: (value) {
           if(value.isEmpty) {
             return 'Please enter the number of wasted Items';
@@ -52,14 +63,21 @@ class NewPostScreen extends StatelessWidget {
     );
   }
 
-  Widget uploadButton(context) {
+  Widget uploadButton(context, formKey) {
     return SizedBox(
       height: 80,
       child:RaisedButton(
-        onPressed: () {
-          print('validate -> save');
-          print('upload to firebase');
-          Navigator.of(context).pop();
+        onPressed: () async {
+          if(formKey.currentState.validate()) {
+            formKey.currentState.save();
+            postDTO.date = DateTime.now();
+            // postDTO.imageUrl = ?
+            // postDTO.longitude;
+            // postDTO.latitude;
+            // print('upload to firebase');
+            Firestore.instance.collection('posts').add(postDTO.toMap());
+            Navigator.of(context).pop();
+          }
         },
         child: Icon(Icons.cloud_upload, size: 80,),
       )
