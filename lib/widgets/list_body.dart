@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../db/post_dto.dart';
+import '../models/post_dto.dart';
 import '../screens/detail_screen.dart';
 import '../utility/format_date.dart';
 
@@ -25,14 +25,18 @@ class PostListBody extends StatelessWidget {
       itemCount: snapshot.data.documents.length,
       itemBuilder: (context, index) {
         var post = snapshot.data.documents[index];
-        return ListTile(
-          title: Text(formatDate(post['date'])),
-          trailing: Text(post['quantity'].toString()),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => DetailScreen(post: PostDTO.firebaseData(post)))
-            );
-          }
+        return Semantics(
+          child: ListTile(
+            title: Text(formatDate(post['date']), style: TextStyle(fontSize: 18)),
+            trailing: Text(post['quantity'].toString(), style: TextStyle(fontSize: 25),),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => DetailScreen(post: PostDTO.firebaseData(post)))
+              );
+            }
+          ),
+          label: '${post['quantity'].toString()} donuts were wasted on ${formatDate(post['date'])}',
+          onTapHint: 'View details of post created on ${formatDate(post['date'])}',
         );
       }
     );

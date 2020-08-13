@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../db/post_dto.dart';
+import '../models/post_dto.dart';
 import '../models/img_arg.dart';
 
 class NewPostScreen extends StatefulWidget {
@@ -31,16 +31,29 @@ class _NewPostScreenState extends State<NewPostScreen> {
         child: Column(
           children: [
             Center(
-              child: SizedBox(
-                height: 375,
-                child: arg.image == null ? Text('No Image Selected.') : Image.file(arg.image)
+              child: Semantics(
+                child: SizedBox(
+                  height: 375,
+                  child: arg.image == null ? Text('No Image Selected.') : Image.file(arg.image)
+                ),
+                image: true,
+                label: 'Image previously chosen from gallery',
               )
             ),
-            inputWasteField()
+            Semantics(
+              child: inputWasteField(),
+              textField: true,
+              enabled: true,
+            )
           ]
         )
       ),
-      bottomNavigationBar: uploadButton(context, formKey, arg),
+      bottomNavigationBar: Semantics(
+        child: uploadButton(context, formKey, arg),
+        button: true,
+        enabled: true,
+        onTapHint: 'Upload new post to Firebase',
+      ),
       resizeToAvoidBottomInset: false,
     );
   }
@@ -69,7 +82,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   Widget uploadButton(context, formKey, arg) {
     return SizedBox(
       height: 80,
-      child:RaisedButton(
+      child: RaisedButton(
         onPressed: () async {
           if(formKey.currentState.validate()) {
             formKey.currentState.save();

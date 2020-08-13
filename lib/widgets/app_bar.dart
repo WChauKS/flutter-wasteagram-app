@@ -23,6 +23,8 @@ class _WasteagramAppBarState extends State<WasteagramAppBar> {
             title: Text(title + ' : ' + sum.toString()),
             centerTitle: true,
           );
+        } else {
+          return AppBar(title: Text(title), centerTitle: true,);
         }
       }
     );

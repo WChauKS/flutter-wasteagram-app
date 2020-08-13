@@ -34,15 +34,16 @@ class _PostListScreenState extends State<PostListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Wasteagram + NUM'),
-      //   centerTitle: true,
-      // ),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(75),
+        preferredSize: Size.fromHeight(55),
         child: WasteagramAppBar(),
       ),
-      floatingActionButton: cameraFab(),
+      floatingActionButton: Semantics(
+        child: cameraFab(),
+        button: true,
+        enabled: true,
+        onTapHint: 'Select an image from gallery',
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: PostListBody(),
     );

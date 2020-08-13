@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import '../db/post_dto.dart';
+import '../models/post_dto.dart';
 import '../utility/format_date.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -26,13 +26,19 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            detailPadding(formatDate(post.date),20.0),
+            Semantics(child: detailPadding(formatDate(post.date),20.0), label: 'Date post was created on'),
             SizedBox(
               height: 375,
-              child: loadImage(post.imageUrl)
+              child: Semantics(
+                child: loadImage(post.imageUrl),
+                image: true,
+                label: 'Image from Firebase storage bucket'
+                )
               ),
-            detailPadding(post.quantity.toString(),20.0),
-            detailPadding('Longitude: ${post.longitude.toString()} / Latitude: + ${post.latitude.toString()}', 15.0),
+            Semantics(child: detailPadding(post.quantity.toString(),20.0), label: 'Number of wasted donuts'),
+            Semantics(child: detailPadding('Longitude: ${post.longitude.toString()} / Latitude: + ${post.latitude.toString()}', 15.0),
+              label: 'Longitude and Latitude of where post was submitted',
+            ),
           ],
         ),
       ),
