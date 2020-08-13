@@ -9,7 +9,6 @@ class App extends StatelessWidget {
     PostListScreen.routeName: (context) => PostListScreen(),
     DetailScreen.routeName: (context) => DetailScreen(),
     NewPostScreen.routeName: (context) => NewPostScreen(),
-  //   ImgPickerScreen.routeName: (context) => ImgPickerScreen()
   };
 
   @override

@@ -44,3 +44,6 @@ app.*.map.json
 
 # Firebase configuration
 google-services.json
+
+# Sentry dsn
+sentry_dsn.txt
