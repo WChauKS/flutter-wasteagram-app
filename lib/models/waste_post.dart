@@ -1,11 +1,13 @@
-class PostDTO {
+// Model Class
+
+class WastePost {
   DateTime date;
   String imageUrl;
   int quantity;
   double longitude;
   double latitude;
 
-  PostDTO({this.date, this.imageUrl, this.quantity, this.latitude, this.longitude});
+  WastePost({this.date, this.imageUrl, this.quantity, this.latitude, this.longitude});
   
   Map<String, dynamic> toMap() {
     return {
@@ -13,7 +15,7 @@ class PostDTO {
     };
   }
 
-  PostDTO.firebaseData(post) {
+  WastePost.firebaseData(post) {
     this.date = post['date'].toDate();
     this.imageUrl = post['imageUrl'];
     this.quantity = post['quantity'];

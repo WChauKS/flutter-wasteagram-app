@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../models/post_dto.dart';
+import '../models/waste_post.dart';
 import '../screens/detail_screen.dart';
 import '../utility/format_date.dart';
 
@@ -31,7 +31,7 @@ class PostListBody extends StatelessWidget {
             trailing: Text(post['quantity'].toString(), style: TextStyle(fontSize: 25),),
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => DetailScreen(post: PostDTO.firebaseData(post)))
+                MaterialPageRoute(builder: (_) => DetailScreen(post: WastePost.firebaseData(post)))
               );
             }
           ),

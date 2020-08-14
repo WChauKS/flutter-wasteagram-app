@@ -1,15 +1,10 @@
 // This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wasteagram/models/post_dto.dart';
+import 'package:wasteagram/models/waste_post.dart';
 
 void main() {
-  // test for PostDTO class
+  // test for WastePost class
   test('Post created from map', () {
     final date = DateTime.parse('2020-01-01');
     final imageUrl = 'FAKE';
@@ -17,7 +12,7 @@ void main() {
     final longitude = 1.0;
     final latitude = 10.0;
 
-    final wasteagramPost = PostDTO(date: date, imageUrl: imageUrl, quantity: quantity, longitude: longitude, latitude: latitude);
+    final wasteagramPost = WastePost(date: date, imageUrl: imageUrl, quantity: quantity, longitude: longitude, latitude: latitude);
 
     expect(wasteagramPost.date, date);
     expect(wasteagramPost.imageUrl, imageUrl);
