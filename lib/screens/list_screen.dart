@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 import '../models/img_arg.dart';
+import '../widgets/fake_end_drawer.dart';
 import '../widgets/list_body.dart';
 import '../widgets/app_bar.dart';
 
@@ -38,6 +39,7 @@ class _PostListScreenState extends State<PostListScreen> {
         preferredSize: Size.fromHeight(55),
         child: WasteagramAppBar(),
       ),
+      endDrawer: FakeEndDrawerForTesting(),
       floatingActionButton: Semantics(
         child: cameraFab(),
         button: true,
